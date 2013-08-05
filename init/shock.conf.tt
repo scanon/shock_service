@@ -7,4 +7,4 @@ start on runlevel [23]
 stop on runlevel [!23]
 
 respawn
-exec /kb/deployment/bin/shock-server -conf /kb/deployment/services/aux_store/conf/shock.cfg
+exec [% kb_top %]/bin/shock-server -conf [% kb_top %]/services/shock_service/conf/shock.cfg

@@ -45,5 +45,4 @@ if [ ${CONF} = "prod" ]; then
     start shock
 else
     cp -v conf/shock-test.cfg ${SERVICE_DIR}/conf/shock.cfg
-    cp -v services/shock.conf /etc/init/
 fi

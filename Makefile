@@ -2,6 +2,10 @@ TARGET ?= /kb/deployment
 DEPLOY_RUNTIME = /kb/runtime
 SERVICE = shock_service
 SERVICE_DIR = $(TARGET)/services/$(SERVICE)
+TPAGE_ARGS = --define kb_top=$(TARGET)
+
+include $(TOP_DIR)/tools/Makefile.common
+
 
 .PHONY : test
 
@@ -12,15 +16,16 @@ deploy: deploy-service
 # deploy-all is depricted, consider removing it and using the deploy target
 deploy-all: deploy-service 
 
-deploy-service:
-	git submodule init
-	git submodule update
+deploy-service: init
 	sh install.sh $(SERVICE_DIR) $(TARGET) prod
 
-deploy-service-test:
+deploy-service-test: init
+	sh install.sh $(SERVICE_DIR) $(TARGET) test
+
+init:
 	git submodule init
 	git submodule update
-	sh install.sh $(SERVICE_DIR) $(TARGET) test
+	$(TPAGE) $(TPAGE_ARGS) init/shock.conf.tt > /etc/init/shock.conf
 
 # Test Section
 TESTS = $(wildcard test/*.t)

@@ -8,7 +8,6 @@ LIB_DIR=$TARGET/lib
 PERL_LIB="/kb/runtime/lib/perl5/site_perl/5.16.0"
 
 if [ ${CONF} = "prod" ]; then
-    stop shock
     SHOCK_SITE=/disk0/site                                                                                                                             
     SHOCK_DATA=/disk0/data
 else
@@ -42,7 +41,6 @@ cp -v Shock/README.md ${SHOCK_SITE}/assets/misc/README.md
 
 if [ ${CONF} = "prod" ]; then
     cp -v conf/shock.cfg ${SERVICE_DIR}/conf/shock.cfg
-    start shock
 else
     cp -v conf/shock-test.cfg ${SERVICE_DIR}/conf/shock.cfg
 fi

@@ -38,9 +38,4 @@ rm -r ${SHOCK_SITE}
 cp -v -r Shock/shock-server/site ${SHOCK_SITE}
 rm ${SHOCK_SITE}/assets/misc/README.md
 cp -v Shock/README.md ${SHOCK_SITE}/assets/misc/README.md
-
-if [ ${CONF} = "prod" ]; then
-    cp -v conf/shock.cfg ${SERVICE_DIR}/conf/shock.cfg
-else
-    cp -v conf/shock-test.cfg ${SERVICE_DIR}/conf/shock.cfg
-fi
+cp -v shock.cfg ${SERVICE_DIR}/conf/shock.cfg

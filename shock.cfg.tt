@@ -6,14 +6,14 @@ write=false
 create-user=false
 
 [External]
-site-url=
-api-url=
+site-url=[% site_url %]
+api-url=[% api_url %]
 
 [Ports]
 # Ports for site/api
 # Note: use of port 80 may require root access
-site-port=7043
-api-port=7044
+site-port=[% site_port %]
+api-port=[% api_port %]
 
 [Auth]
 type=globus 
@@ -26,18 +26,18 @@ secretkey=kbsupersecretkey
 
 [Directories]
 # See documentation for details of deploying Shock
-site=/mnt/Shock/site                                                                                                                             
-data=/mnt/Shock/data
-logs=/mnt/Shock/logs
+site=[% site_dir %]                                                                                                                             
+data=[% data_dir %]
+logs=[% logs_dir %]
 local_paths=NONE
 
 [Mongodb]
 # Mongodb configuration:
 # Hostnames and ports hosts=host1[,host2:port,...,hostN]
-hosts=localhost
-database=ShockDBtest
-user=
-password=
+hosts=[% mongo_host %]
+database=[% mongo_db %]
+user=[% mongo_user %]
+password=[% mongo_password %]
 
 [Mongodb-Node-Indices]
 # See http://www.mongodb.org/display/DOCS/Indexes#Indexes-CreationOptions for more info on mongodb index options.

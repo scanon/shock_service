@@ -4,6 +4,24 @@ SERVICE = shock_service
 SERVICE_DIR = $(TARGET)/services/$(SERVICE)
 TPAGE_ARGS = --define kb_top=$(TARGET)
 
+TPAGE_PROD_ARGS = --define site_url=http://kbase.us/services/shock \
+--define api_url=http://kbase.us/services/shock	\
+--define site_port=7043 \
+--define api_port=7044 \
+--define site_dir=/disk0/site \
+--define data_dir=/disk0/data \
+--define logs_dir=$(SERVICE_DIR)/logs/shock \
+--define mongo_host=mongodb.kbase.us \
+--define mongo_db=ShockDB
+
+TPAGE_TEST_ARGS = --define site_port=7077 \
+--define api_port=7078 \
+--define site_dir=/mnt/Shock/site \
+--define data_dir=/mnt/Shock/data \
+--define logs_dir=/mnt/Shock/logs \
+--define mongo_host=localhost \
+--define mongo_db=ShockDBtest
+
 include $(KB_TOP)/tools/Makefile.common
 
 .PHONY : test
@@ -16,27 +34,11 @@ deploy: deploy-service
 deploy-all: deploy-service 
 
 deploy-service: initialize
-	$(TPAGE) --define site_url=http://kbase.us/services/shock \
-					  api_url=http://kbase.us/services/shock \ 
-					  site_port=7043 \ 
-					  api_port=7044 \ 
-					  site_dir=/disk0/site \ 
-					  data_dir=/disk0/data \ 
-					  logs=$(SERVICE_DIR)/logs/shock \ 
-					  mongo_host=mongodb.kbase.us \ 
-					  mongo_db=ShockDB \
-					shock.cfg.tt > shock.cfg
+	$(TPAGE) $(TPAGE_PROD_ARGS)	shock.cfg.tt > shock.cfg
 	sh install.sh $(SERVICE_DIR) $(TARGET) prod
 
 deploy-service-test: initialize
-	$(TPAGE) --define site_port=7077 \ 
-					  api_port=7078 \ 
-					  site_dir=/mnt/Shock/site \ 
-					  data_dir=/mnt/Shock/data \ 
-					  logs=/mnt/Shock/logs \ 
-					  mongo_host=localhost \ 
-					  mongo_db=ShockDBtest \
-					shock.cfg.tt > shock.cfg
+	$(TPAGE) $(TPAGE_TEST_ARGS)	shock.cfg.tt > shock.cfg
 	sh install.sh $(SERVICE_DIR) $(TARGET) test
 
 initialize:

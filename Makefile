@@ -34,11 +34,11 @@ deploy: deploy-service
 deploy-all: deploy-service 
 
 deploy-service: initialize
-	$(TPAGE) $(TPAGE_PROD_ARGS)	shock.cfg.tt > shock.cfg
+	$(TPAGE) $(TPAGE_PROD_ARGS) shock.cfg.tt > shock.cfg
 	sh install.sh $(SERVICE_DIR) $(TARGET) prod
 
 deploy-service-test: initialize
-	$(TPAGE) $(TPAGE_TEST_ARGS)	shock.cfg.tt > shock.cfg
+	$(TPAGE) $(TPAGE_TEST_ARGS) shock.cfg.tt > shock.cfg
 	sh install.sh $(SERVICE_DIR) $(TARGET) test
 
 initialize:

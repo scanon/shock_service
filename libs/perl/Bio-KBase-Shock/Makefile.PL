@@ -1,7 +1,7 @@
 use ExtUtils::MakeMaker;
 
 WriteMakefile (
-	NAME	=> 'Bio::Kbase::DataStore',
+	NAME	=> 'Bio::Kbase::Shock',
 	VERSION	=> '0.0.1',
 	AUTHOR	=> 'Jared Wilkening',
 	EXE_FILES	=> [],

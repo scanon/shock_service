@@ -1,8 +1,7 @@
 #!/bin/sh 
-
 TARGET=$1
 LIB_DIR=$TARGET/lib
-PERL=/kb/runtime/perl
+PERL=/kb/runtime/bin/perl
 
 # prepare libs
 cd libs

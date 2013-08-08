@@ -1,0 +1,45 @@
+[Anonymous]
+# Controls weither an anonymous user can read/write
+# values: true/false
+read=true
+write=false
+create-user=false
+
+[External]
+site-url=[% site_url %]
+api-url=[% api_url %]
+
+[Ports]
+# Ports for site/api
+# Note: use of port 80 may require root access
+site-port=[% site_port %]
+api-port=[% api_port %]
+
+[Auth]
+type=globus 
+globus_token_url=https://nexus.api.globusonline.org/goauth/token?grant_type=client_credentials
+globus_profile_url=https://nexus.api.globusonline.org/users
+
+[Admin]
+email=shock-admin@kbase.us
+secretkey=kbsupersecretkey
+
+[Directories]
+# See documentation for details of deploying Shock
+site=[% site_dir %]                                                                                                                             
+data=[% data_dir %]
+logs=[% logs_dir %]
+local_paths=NONE
+
+[Mongodb]
+# Mongodb configuration:
+# Hostnames and ports hosts=host1[,host2:port,...,hostN]
+hosts=[% mongo_host %]
+database=[% mongo_db %]
+user=[% mongo_user %]
+password=[% mongo_password %]
+
+[Mongodb-Node-Indices]
+# See http://www.mongodb.org/display/DOCS/Indexes#Indexes-CreationOptions for more info on mongodb index options.
+# key=unique:true/false[,dropDups:true/false][,sparse:true/false]
+id=unique:true

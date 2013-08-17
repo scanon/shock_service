@@ -3,6 +3,7 @@ DEPLOY_RUNTIME = /kb/runtime
 SERVICE = shock_service
 SERVICE_DIR = $(TARGET)/services/$(SERVICE)
 TPAGE_ARGS = --define kb_top=$(TARGET)
+PROD=$(shell test -d "/disk0" && echo true)
 
 TPAGE_PROD_ARGS = --define site_url=http://kbase.us/services/shock \
 --define api_url=http://kbase.us/services/shock	\
@@ -22,6 +23,16 @@ TPAGE_TEST_ARGS = --define site_port=7077 \
 --define mongo_host=localhost \
 --define mongo_db=ShockDBtest
 
+ifeq (true, $(PROD))
+    TYPE=prod
+    TPAGE_OTHER_ARGS=$(TPAGE_PROD_ARGS)
+else
+    TYPE=test
+    $(warning Test Deployment)
+    TPAGE_OTHER_ARGS=$(TPAGE_TEST_ARGS)
+endif
+
+
 include $(KB_TOP)/tools/Makefile.common
 
 .PHONY : test
@@ -36,8 +47,8 @@ deploy-libs:
 deploy-client: deploy-service
 
 deploy-service: initialize
-	$(TPAGE) $(TPAGE_PROD_ARGS) shock.cfg.tt > shock.cfg
-	sh install-service.sh $(SERVICE_DIR) $(TARGET) prod
+	$(TPAGE) $(TPAGE_OTHER_ARGS) shock.cfg.tt > shock.cfg
+	sh install-service.sh $(SERVICE_DIR) $(TARGET) $(TYPE)
 
 deploy-service-test: initialize
 	$(TPAGE) $(TPAGE_TEST_ARGS) shock.cfg.tt > shock.cfg

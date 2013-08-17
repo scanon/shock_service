@@ -39,3 +39,10 @@ cp -v -r Shock/shock-server/site ${SHOCK_SITE}
 rm ${SHOCK_SITE}/assets/misc/README.md
 cp -v Shock/README.md ${SHOCK_SITE}/assets/misc/README.md
 cp -v shock.cfg ${SERVICE_DIR}/conf/shock.cfg
+cp -v start_service ${SERVICE_DIR}/
+cp -v stop_service ${SERVICE_DIR}/
+
+# deploy docs
+[ -e ${SERVICE_DIR}/webroot ] || mkdir ${SERVICE_DIR}/webroot
+cp -a Shock/shock-server/site/assets ${SERVICE_DIR}/webroot/
+cp -a Shock/shock-server/site/pages/main.html ${SERVICE_DIR}/webroot/index.html

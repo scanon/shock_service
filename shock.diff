@@ -1,0 +1,20 @@
+diff --git a/shock-server/node/db.go b/shock-server/node/db.go
+index 8ce0684..137c234 100644
+--- a/shock-server/node/db.go
++++ b/shock-server/node/db.go
+@@ -54,6 +54,7 @@ func Load(id string, uuid string) (n *Node, err error) {
+ 	} else {
+ 		return nil, err
+ 	}
++	return nil, err
+ }
+ 
+ func LoadUnauth(id string) (n *Node, err error) {
+@@ -63,6 +64,7 @@ func LoadUnauth(id string) (n *Node, err error) {
+ 	} else {
+ 		return nil, err
+ 	}
++	return nil, err
+ }
+ 
+ func LoadNodes(ids []string) (n Nodes, err error) {

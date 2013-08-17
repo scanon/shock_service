@@ -8,12 +8,12 @@ LIB_DIR=$TARGET/lib
 PERL_LIB="/kb/runtime/lib/perl5/site_perl/5.16.0"
 
 if [ ${CONF} = "prod" ]; then
-    SHOCK_SITE=/disk0/site                                                                                                                             
+    SHOCK_SITE=/disk0/site
     SHOCK_DATA=/disk0/data
 else
     mkdir -p /mnt/Shock/data
     mkdir -p /mnt/Shock/logs
-    SHOCK_SITE=/mnt/Shock/site                                                                                                                             
+    SHOCK_SITE=/mnt/Shock/site
     SHOCK_DATA=/mnt/Shock/data
 fi
 
@@ -26,6 +26,8 @@ if [ ! -e ${GOPATH} ]; then
 else
     rm -rf ${GOPATH}/*
 fi
+
+(cd Shock;cat ../shock.diff|patch -N -p1 -s)
 
 mkdir -p ${GOPATH}/src/github.com/MG-RAST
 cp -r Shock ${GOPATH}/src/github.com/MG-RAST/
@@ -46,3 +48,5 @@ cp -v stop_service ${SERVICE_DIR}/
 [ -e ${SERVICE_DIR}/webroot ] || mkdir ${SERVICE_DIR}/webroot
 cp -a Shock/shock-server/site/assets ${SERVICE_DIR}/webroot/
 cp -a Shock/shock-server/site/pages/main.html ${SERVICE_DIR}/webroot/index.html
+rm ${SERVICE_DIR}/webroot/assets/misc/README.md 
+cp Shock/README.md ${SERVICE_DIR}/webroot/assets/misc/README.md 

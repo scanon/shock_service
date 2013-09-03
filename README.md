@@ -6,7 +6,7 @@ Enables deployment of shock server and clients within the kbase release environm
 The following are instructions on how to deploy the Shock service in KBase from launching a fresh KBase instance to starting the service...
 
 - Create security group for Shock server (this isn't required with the test ports in the Makefile but makes it convenient if you want to change the ports later)
-- Using this security group and your key, launch KBase instance
+- Using this security group and your key, launch a KBase instance
 - Get code:<br />
 sudo -s<br />
 cd /kb<br />
@@ -42,5 +42,5 @@ make deploy<br />
 service shock restart (restart Shock)<br />
 
 - After deployment has completed, if you've associated an IP with your instance you should be able to confirm that Shock is running by going to either url below (ports are defined in shock.cfg):<br />
-site ->  http://<IP>:7077/<br />
-api  ->  http://<IP>:7078/<br />
+site ->  http://[Shock Server IP]:7077/<br />
+api  ->  http://[Shock Server IP]:7078/<br />

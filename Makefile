@@ -6,7 +6,7 @@ SERVICE_DIR = $(TARGET)/services/$(SERVICE)
 
 GO_TMP_DIR = /tmp/go_build.tmp
 
-SHOCK_PROD_SITE = /disk0/data
+SHOCK_PROD_SITE = /disk0/site
 SHOCK_PROD_DATA = /disk0/data
 SHOCK_PROD_LOGS = $(SERVICE_DIR)/logs/shock
 
@@ -69,7 +69,7 @@ deploy-service: all
 	fi
 
 	mkdir -p $(SHOCK_TEST_SITE) $(SHOCK_TEST_DATA) $(SHOCK_TEST_LOGS) $(SHOCK_TEST_SITE)/assets/misc
-	cp -v -r Shock/shock-server/site $(SHOCK_TEST_SITE)
+	cp -v -r Shock/shock-server/site/* $(SHOCK_TEST_SITE)
 	rm -f $(SHOCK_TEST_SITE)/assets/misc/README.md
 	cp -v Shock/README.md $(SHOCK_TEST_SITE)/assets/misc/README.md
 

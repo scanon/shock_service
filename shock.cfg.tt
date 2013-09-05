@@ -26,7 +26,7 @@ secretkey=kbsupersecretkey
 
 [Directories]
 # See documentation for details of deploying Shock
-site=[% site_dir %]                                                                                                                             
+site=[% site_dir %]
 data=[% data_dir %]
 logs=[% logs_dir %]
 local_paths=NONE

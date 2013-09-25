@@ -81,18 +81,16 @@ deploy-service: all
 	cp service/stop_service $(SERVICE_DIR)/
 	chmod +x $(SERVICE_DIR)/stop_service
 
-initialize: Shock/README.md
-
-prepare: lib/Bio/KBase/Shock.pm
-
-lib/Bio/KBase/Shock.pm: Shock/libs/shock.pm
-	cd lib; ./prepare.sh
-
-Shock/README.md:
+initialize:
 	git submodule init
 	git submodule update
 	$(TPAGE) $(TPAGE_PROD_ARGS) init/shock.conf.tt > /etc/init/shock.conf
 	$(TPAGE) $(TPAGE_TEST_ARGS) init/shock_test.conf.tt > /etc/init/shock_test.conf
+
+prepare: lib/Bio/KBase/Shock.pm
+
+lib/Bio/KBase/Shock.pm:
+	cd lib; ./prepare.sh
 
 clean:
 	rm -fr $(GO_TMP_DIR)

@@ -21,11 +21,11 @@ if [ $HELP -eq 1 ]; then
 fi
 
 if [ "$ENVIRONMENT" == "prod" ]; then
-	echo "/sbin/service shock start"
-	/sbin/service shock start
+	echo "/usr/sbin/service shock start"
+	/usr/sbin/service shock start
 elif [ "$ENVIRONMENT" == "test" ]; then
-	echo "/sbin/service shock_test start"
-	/sbin/service shock_test start
+	echo "/usr/sbin/service shock_test start"
+	/usr/sbin/service shock_test start
 else
 	echo "ERROR: the environment option must be either prod or test"
 fi

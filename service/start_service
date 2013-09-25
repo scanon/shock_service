@@ -2,12 +2,8 @@
 
 source /kb/deployment/user-env.sh
 
-SERVICE=shock_service
-SERVICE_DIR=$KB_TOP/services/$SERVICE
-
 HELP=0
 ENVIRONMENT="prod"
-SHOCK_CONFIG=$KB_TOP/services/shock_service/conf/shock.cfg
 
 while getopts he: option; do
 	case "${option}"
@@ -24,9 +20,12 @@ if [ $HELP -eq 1 ]; then
 	exit
 fi
 
-if [ "$ENVIRONMENT" == "test" ]; then
-	SHOCK_CONFIG=$KB_TOP/services/shock_service/conf/shock_test.cfg
+if [ "$ENVIRONMENT" == "prod" ]; then
+	echo "/sbin/service shock start"
+	/sbin/service shock start
+elif [ "$ENVIRONMENT" == "test" ]; then
+	echo "/sbin/service shock_test start"
+	/sbin/service shock_test start
+else
+	echo "ERROR: the environment option must be either prod or test"
 fi
-
-echo "/kb/runtime/sbin/daemonize -v -p $SERVICE_DIR/service.pid $KB_TOP/bin/shock-server -conf $SHOCK_CONFIG"
-/kb/runtime/sbin/daemonize -v -p $SERVICE_DIR/service.pid $KB_TOP/bin/shock-server -conf $SHOCK_CONFIG 

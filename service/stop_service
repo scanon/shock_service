@@ -2,14 +2,30 @@
 
 source /kb/deployment/user-env.sh
 
-SERVICE=shock_service
-SERVICE_DIR=$KB_TOP/services/$SERVICE
+HELP=0
+ENVIRONMENT="prod"
 
-if [ ! -f $SERVICE_DIR/service.pid ]; then
-   echo "No pid file $SERVICE_DIR/service.pid found for service $SERVICE"
-   exit
+while getopts he: option; do
+	case "${option}"
+		in
+		h) HELP=1;;
+		e) ENVIRONMENT=${OPTARG};;
+	esac
+done
+
+if [ $HELP -eq 1 ]; then
+	echo "Usage: stop_service [-h] -e <prod/test>"
+	echo "	-h help"
+	echo "	-e environment <prod,test> (default prod)"
+	exit
 fi
 
-PID=`cat $SERVICE_DIR/service.pid`
-kill $PID 2>&1
-rm $SERVICE_DIR/service.pid
+if [ "$ENVIRONMENT" == "prod" ]; then
+	echo "/sbin/service shock stop"
+	/sbin/service shock stop
+elif [ "$ENVIRONMENT" == "test" ]; then
+	echo "/sbin/service shock_test stop"
+	/sbin/service shock_test stop
+else
+	echo "ERROR: the environment option must be either prod or test"
+fi

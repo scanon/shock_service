@@ -91,6 +91,8 @@ lib/Bio/KBase/Shock.pm: Shock/libs/shock.pm
 Shock/README.md:
 	git submodule init
 	git submodule update
+	$(TPAGE) $(TPAGE_PROD_ARGS) init/shock.conf.tt > /etc/init/shock.conf
+	$(TPAGE) $(TPAGE_TEST_ARGS) init/shock_test.conf.tt > /etc/init/shock_test.conf
 
 clean:
 	rm -fr $(GO_TMP_DIR)

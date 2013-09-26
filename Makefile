@@ -6,33 +6,37 @@ SERVICE_DIR = $(TARGET)/services/$(SERVICE)
 
 GO_TMP_DIR = /tmp/go_build.tmp
 
-SHOCK_PROD_SITE = /disk0/site
-SHOCK_PROD_DATA = /disk0/data
-SHOCK_PROD_LOGS = $(SERVICE_DIR)/logs/shock
+PRODUCTION = 1
 
-TPAGE_PROD_ARGS = --define kb_top=$(TARGET) \
---define site_url=http://kbase.us/services/shock \
---define api_url=http://kbase.us/services/shock	\
---define site_port=7043 \
---define api_port=7044 \
---define site_dir=$(SHOCK_PROD_SITE) \
---define data_dir=$(SHOCK_PROD_DATA) \
---define logs_dir=$(SHOCK_PROD_LOGS) \
---define mongo_host=mongodb.kbase.us \
---define mongo_db=ShockDB
+ifeq ($(PRODUCTION), 1)
+	SHOCK_SITE = /disk0/site
+	SHOCK_DATA = /disk0/data
+	SHOCK_LOGS = $(SERVICE_DIR)/logs/shock
 
-SHOCK_TEST_SITE = /mnt/Shock/site
-SHOCK_TEST_DATA = /mnt/Shock/data
-SHOCK_TEST_LOGS = /mnt/Shock/logs
+	TPAGE_ARGS = --define kb_top=$(TARGET) \
+	--define site_url=http://kbase.us/services/shock \
+	--define api_url=http://kbase.us/services/shock	\
+	--define site_port=7043 \
+	--define api_port=7044 \
+	--define site_dir=$(SHOCK_SITE) \
+	--define data_dir=$(SHOCK_DATA) \
+	--define logs_dir=$(SHOCK_LOGS) \
+	--define mongo_host=mongodb.kbase.us \
+	--define mongo_db=ShockDB
+else
+	SHOCK_SITE = /mnt/Shock/site
+	SHOCK_DATA = /mnt/Shock/data
+	SHOCK_LOGS = /mnt/Shock/logs
 
-TPAGE_TEST_ARGS = --define kb_top=$(TARGET) \
---define site_port=7077 \
---define api_port=7078 \
---define site_dir=$(SHOCK_TEST_SITE) \
---define data_dir=$(SHOCK_TEST_DATA) \
---define logs_dir=$(SHOCK_TEST_LOGS) \
---define mongo_host=localhost \
---define mongo_db=ShockDBtest
+	TPAGE_ARGS = --define kb_top=$(TARGET) \
+	--define site_port=7077 \
+	--define api_port=7078 \
+	--define site_dir=$(SHOCK_SITE) \
+	--define data_dir=$(SHOCK_DATA) \
+	--define logs_dir=$(SHOCK_LOGS) \
+	--define mongo_host=localhost \
+	--define mongo_db=ShockDBtest
+endif
 
 include $(TOP_DIR)/tools/Makefile.common
 
@@ -59,19 +63,12 @@ deploy-client: all
 
 deploy-service: all
 	cp $(BIN_DIR)/shock-server $(TARGET)/bin
-	$(TPAGE) $(TPAGE_PROD_ARGS) shock.cfg.tt > shock.cfg
-	$(TPAGE) $(TPAGE_TEST_ARGS) shock.cfg.tt > shock_test.cfg
+	$(TPAGE) $(TPAGE_ARGS) shock.cfg.tt > shock.cfg
 
-	if [ -d $(SHOCK_PROD_SITE) ]; then                                        \
-		cp -v -r Shock/shock-server/site $(SHOCK_PROD_SITE);              \
-		rm -f $(SHOCK_PROD_SITE)/assets/misc/README.md;                   \
-		cp -v Shock/README.md $(SHOCK_PROD_SITE)/assets/misc/README.md;   \
-	fi
-
-	mkdir -p $(SHOCK_TEST_SITE) $(SHOCK_TEST_DATA) $(SHOCK_TEST_LOGS) $(SHOCK_TEST_SITE)/assets/misc
-	cp -v -r Shock/shock-server/site/* $(SHOCK_TEST_SITE)
-	rm -f $(SHOCK_TEST_SITE)/assets/misc/README.md
-	cp -v Shock/README.md $(SHOCK_TEST_SITE)/assets/misc/README.md
+	mkdir -p $(SHOCK_SITE) $(SHOCK_DATA) $(SHOCK_LOGS) $(SHOCK_SITE)/assets/misc
+	cp -v -r Shock/shock-server/site/* $(SHOCK_SITE)
+	rm -f $(SHOCK_SITE)/assets/misc/README.md
+	cp -v Shock/README.md $(SHOCK_SITE)/assets/misc/README.md
 
 	mkdir -p $(SERVICE_DIR) $(SERVICE_DIR)/conf $(SERVICE_DIR)/logs/shock $(SERVICE_DIR)/data/temp
 	cp -v shock.cfg $(SERVICE_DIR)/conf/shock.cfg
@@ -84,8 +81,7 @@ deploy-service: all
 initialize:
 	git submodule init
 	git submodule update
-	$(TPAGE) $(TPAGE_PROD_ARGS) init/shock.conf.tt > /etc/init/shock.conf
-	$(TPAGE) $(TPAGE_TEST_ARGS) init/shock_test.conf.tt > /etc/init/shock_test.conf
+	$(TPAGE) $(TPAGE_ARGS) init/shock.conf.tt > /etc/init/shock.conf
 
 prepare: lib/Bio/KBase/Shock.pm
 

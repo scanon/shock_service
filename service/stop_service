@@ -2,30 +2,5 @@
 
 source /kb/deployment/user-env.sh
 
-HELP=0
-ENVIRONMENT="prod"
-
-while getopts he: option; do
-	case "${option}"
-		in
-		h) HELP=1;;
-		e) ENVIRONMENT=${OPTARG};;
-	esac
-done
-
-if [ $HELP -eq 1 ]; then
-	echo "Usage: stop_service [-h] -e <prod/test>"
-	echo "	-h help"
-	echo "	-e environment <prod,test> (default prod)"
-	exit
-fi
-
-if [ "$ENVIRONMENT" == "prod" ]; then
-	echo "/usr/sbin/service shock stop"
-	/usr/sbin/service shock stop
-elif [ "$ENVIRONMENT" == "test" ]; then
-	echo "/usr/sbin/service shock_test stop"
-	/usr/sbin/service shock_test stop
-else
-	echo "ERROR: the environment option must be either prod or test"
-fi
+echo "/usr/sbin/service shock stop"
+/usr/sbin/service shock stop

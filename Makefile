@@ -72,7 +72,6 @@ deploy-service: all
 
 	mkdir -p $(SERVICE_DIR) $(SERVICE_DIR)/conf $(SERVICE_DIR)/logs/shock $(SERVICE_DIR)/data/temp
 	cp -v shock.cfg $(SERVICE_DIR)/conf/shock.cfg
-	cp -v shock_test.cfg $(SERVICE_DIR)/conf/shock_test.cfg
 	cp service/start_service $(SERVICE_DIR)/
 	chmod +x $(SERVICE_DIR)/start_service
 	cp service/stop_service $(SERVICE_DIR)/

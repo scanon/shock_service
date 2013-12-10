@@ -48,7 +48,8 @@ build-shock: $(BIN_DIR)/shock-server
 
 $(BIN_DIR)/shock-server: Shock/shock-server/main.go
 	rm -rf $(GO_TMP_DIR)
-	mkdir $(GO_TMP_DIR)
+	mkdir -p $(GO_TMP_DIR)/src/github.com/MG-RAST
+	cp -r Shock $(GO_TMP_DIR)/src/github.com/MG-RAST/
 	export GOPATH=$(GO_TMP_DIR); go get -v github.com/MG-RAST/Shock/...
 	cp $(GO_TMP_DIR)/bin/shock-server $(BIN_DIR)/shock-server
 	cp $(GO_TMP_DIR)/bin/shock-client $(BIN_DIR)/shock-client

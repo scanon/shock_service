@@ -57,7 +57,7 @@ $(BIN_DIR)/shock-server: Shock/shock-server/main.go
 deploy: deploy-libs deploy-client deploy-service
 
 deploy-libs:
-	rsync --exclude '*.bak' -arv lib/. $(TARGET)/lib/.
+	rsync --exclude '*.bak' -arv Shock/libs/. $(TARGET)/lib/.
 
 deploy-client: all
 	cp $(BIN_DIR)/shock-client $(TARGET)/bin/shock-client

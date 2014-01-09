@@ -16,7 +16,6 @@ ifeq ($(PRODUCTION), 1)
 	TPAGE_ARGS = --define kb_top=$(TARGET) \
 	--define site_url=http://kbase.us/services/shock \
 	--define api_url=https://kbase.us/services/shock-api	\
-	--define site_port=7043 \
 	--define api_port=7044 \
 	--define site_dir=$(SHOCK_SITE) \
 	--define data_dir=$(SHOCK_DATA) \
@@ -29,7 +28,6 @@ else
 	SHOCK_LOGS = /mnt/Shock/logs
 
 	TPAGE_ARGS = --define kb_top=$(TARGET) \
-	--define site_port=7077 \
 	--define api_port=7078 \
 	--define site_dir=$(SHOCK_SITE) \
 	--define data_dir=$(SHOCK_DATA) \

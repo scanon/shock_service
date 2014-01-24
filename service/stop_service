@@ -2,14 +2,5 @@
 
 source /kb/deployment/user-env.sh
 
-SERVICE=shock_service
-SERVICE_DIR=$KB_TOP/services/$SERVICE
-
-if [ ! -f $SERVICE_DIR/service.pid ]; then
-   echo "No pid file $SERVICE_DIR/service.pid found for service $SERVICE"
-   exit
-fi
-
-PID=`cat $SERVICE_DIR/service.pid`
-kill $PID 2>&1
-rm $SERVICE_DIR/service.pid
+echo "/usr/sbin/service shock stop"
+/usr/sbin/service shock stop

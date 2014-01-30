@@ -1,38 +1,32 @@
+[Address]
+# IP and port for api
+# Note: use of port 80 may require root access
+# 0.0.0.0 will bind Shock to all IP's
+api-ip=[% site_port %]
+api-port=[% api_port %]
+
+[Admin]
+email=shock-admin@kbase.us
+
 [Anonymous]
-# Controls weither an anonymous user can read/write
+# Controls an anonymous user's ability to read/write
 # values: true/false
 read=true
 write=false
 create-user=false
 
-[External]
-site-url=[% site_url %]
-api-url=[% api_url %]
-
-[Ports]
-# Ports for site/api
-# Note: use of port 80 may require root access
-site-port=[% site_port %]
-api-port=[% api_port %]
-
 [Auth]
-type=globus 
 globus_token_url=https://nexus.api.globusonline.org/goauth/token?grant_type=client_credentials
 globus_profile_url=https://nexus.api.globusonline.org/users
 
-[Admin]
-email=shock-admin@kbase.us
-secretkey=kbsupersecretkey
+[External]
+site-url=[% site_url %]
 
-[Directories]
-# See documentation for details of deploying Shock
-site=[% site_dir %]
-data=[% data_dir %]
-logs=[% logs_dir %]
-local_paths=NONE
+[Log]
+perf_log=false
 
 [Mongodb]
-# Mongodb configuration:
+# Mongodb configuration
 # Hostnames and ports hosts=host1[,host2:port,...,hostN]
 hosts=[% mongo_host %]
 database=[% mongo_db %]
@@ -43,3 +37,14 @@ password=[% mongo_password %]
 # See http://www.mongodb.org/display/DOCS/Indexes#Indexes-CreationOptions for more info on mongodb index options.
 # key=unique:true/false[,dropDups:true/false][,sparse:true/false]
 id=unique:true
+
+[Paths]
+# See documentation for details of deploying Shock
+site=[% site_dir %]
+data=[% data_dir %]
+logs=[% logs_dir %]
+local_paths=
+pidfile=
+
+[Runtime]
+GOMAXPROCS=

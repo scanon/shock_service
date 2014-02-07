@@ -20,7 +20,8 @@ ifeq ($(PRODUCTION), 1)
 	--define data_dir=$(SHOCK_DATA) \
 	--define logs_dir=$(SHOCK_LOGS) \
 	--define mongo_host=mongodb.kbase.us \
-	--define mongo_db=ShockDB
+	--define mongo_db=ShockDB \
+	--define mongo_timeout=300
 else
 	SHOCK_SITE = /mnt/Shock/site
 	SHOCK_DATA = /mnt/Shock/data
@@ -32,7 +33,8 @@ else
 	--define data_dir=$(SHOCK_DATA) \
 	--define logs_dir=$(SHOCK_LOGS) \
 	--define mongo_host=localhost \
-	--define mongo_db=ShockDBtest
+	--define mongo_db=ShockDBtest \
+	--define mongo_timeout=300
 endif
 
 include $(TOP_DIR)/tools/Makefile.common

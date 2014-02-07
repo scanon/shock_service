@@ -30,7 +30,6 @@ perf_log=false
 # Hostnames and ports hosts=host1[,host2:port,...,hostN]
 hosts=[% mongo_host %]
 database=[% mongo_db %]
-timeout=[% mongo_timeout %]
 user=
 password=
 

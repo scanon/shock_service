@@ -78,7 +78,6 @@ deploy-service: all
 initialize:
 	git submodule init
 	git submodule update
-	$(TPAGE) $(TPAGE_ARGS) init/shock.conf.tt > /etc/init/shock.conf
 
 prepare: lib/Bio/KBase/Shock.pm
 

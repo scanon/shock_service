@@ -14,6 +14,7 @@ ifeq ($(PRODUCTION), 1)
 	SHOCK_LOGS = $(SERVICE_DIR)/logs/shock
 
 	TPAGE_ARGS = --define kb_top=$(TARGET) \
+	--define kb_runtime=$(DEPLOY_RUNTIME) \
 	--define api_url=https://kbase.us/services/shock-api	\
 	--define api_port=7044 \
 	--define site_dir=$(SHOCK_SITE) \
@@ -27,6 +28,7 @@ else
 	SHOCK_LOGS = /mnt/Shock/logs
 
 	TPAGE_ARGS = --define kb_top=$(TARGET) \
+	--define kb_runtime=$(DEPLOY_RUNTIME) \
 	--define api_port=7078 \
 	--define site_dir=$(SHOCK_SITE) \
 	--define data_dir=$(SHOCK_DATA) \
@@ -75,10 +77,12 @@ deploy-service: all
 	cp service/stop_service $(SERVICE_DIR)/
 	chmod +x $(SERVICE_DIR)/stop_service
 
+deploy-upstart:
+	$(TPAGE) $(TPAGE_ARGS) init/shock.conf.tt > /etc/init/shock.conf
+
 initialize:
 	git submodule init
 	git submodule update
-	$(TPAGE) $(TPAGE_ARGS) init/shock.conf.tt > /etc/init/shock.conf
 
 prepare: lib/Bio/KBase/Shock.pm
 

@@ -1,6 +1,8 @@
 #!/bin/bash
 
-source /kb/deployment/user-env.sh
+PID_FILE=[% kb_top %]/services/shock_service/service.pid
+SHOCK_CONFIG=[% kb_top %]/services/shock_service/conf/shock.cfg
 
-echo "/usr/sbin/service shock stop"
-/usr/sbin/service shock stop
+PID=`cat $PID_FILE`
+kill $PID 2>&1
+rm $PID_FILE

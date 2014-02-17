@@ -1,6 +1,7 @@
 #!/bin/bash
 
-source /kb/deployment/user-env.sh
+PID_FILE=[% kb_top %]/services/shock_service/service.pid
+SHOCK_CONFIG=[% kb_top %]/services/shock_service/conf/shock.cfg
 
-echo "/usr/sbin/service shock start"
-/usr/sbin/service shock start
+echo "[% kb_runtime %]/sbin/daemonize -v -p $PID_FILE [% kb_top %]/bin/shock-server -conf $SHOCK_CONFIG"
+[% kb_runtime %]/sbin/daemonize -v -p $PID_FILE [% kb_top %]/bin/shock-server -conf $SHOCK_CONFIG

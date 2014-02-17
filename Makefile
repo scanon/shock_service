@@ -72,9 +72,9 @@ deploy-service: all
 
 	mkdir -p $(SERVICE_DIR) $(SERVICE_DIR)/conf $(SERVICE_DIR)/logs/shock $(SERVICE_DIR)/data/temp
 	cp -v shock.cfg $(SERVICE_DIR)/conf/shock.cfg
-	cp service/start_service $(SERVICE_DIR)/
+	$(TPAGE) $(TPAGE_ARGS) service/start_service.tt > $(SERVICE_DIR)/start_service
 	chmod +x $(SERVICE_DIR)/start_service
-	cp service/stop_service $(SERVICE_DIR)/
+	$(TPAGE) $(TPAGE_ARGS) service/stop_service.tt > $(SERVICE_DIR)/stop_service
 	chmod +x $(SERVICE_DIR)/stop_service
 
 deploy-upstart:

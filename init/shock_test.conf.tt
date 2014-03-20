@@ -2,9 +2,19 @@
 #
 # This service maintains a shock instance from the point the system is
 # started until it is shut down again.
+#
+# Make sure to set up the user run account
+# shell> groupadd [% kb_runas_user %] 
+# shell> useradd -r -g [% kb_runas_user %] [% kb_runas_user %]
 
-start on runlevel [23]
+start on runlevel [23] and started mongod
 stop on runlevel [!23]
 
 respawn
-exec [% kb_top %]/bin/shock-server -conf [% kb_top %]/services/shock_service/conf/shock_test.cfg
+
+pre-start exec chown -R [% kb_runas_user %] [% kb_top %]/services/shock_service
+
+# setuid [% kb_runas_user %] will work if you upgrade upstart to 1.4 or higher
+# Then you don't need to do the su
+
+exec su [% kb_runas_user %] -c '[% kb_top %]/bin/shock-server -conf [% kb_top %]/services/shock_service/conf/shock.cfg >/dev/null 2>&1'

@@ -12,6 +12,8 @@ ifeq ($(PRODUCTION), 1)
 	SHOCK_SITE = /disk0/site
 	SHOCK_DATA = /disk0/data
 	SHOCK_LOGS = $(SERVICE_DIR)/logs/shock
+	MONGO_HOST = mongodb.kbase.us
+	MONGO_DB = ShockDB
 
 	TPAGE_ARGS = --define kb_top=$(TARGET) \
 	--define kb_runtime=$(DEPLOY_RUNTIME) \
@@ -20,13 +22,15 @@ ifeq ($(PRODUCTION), 1)
 	--define site_dir=$(SHOCK_SITE) \
 	--define data_dir=$(SHOCK_DATA) \
 	--define logs_dir=$(SHOCK_LOGS) \
-	--define mongo_host=mongodb.kbase.us \
-	--define mongo_db=ShockDB \
+	--define mongo_host=$(MONGO_HOST) \
+	--define mongo_db=$(MONGO_DB) \
 	--define kb_runas_user=$(SERVICE_USER)
 else
 	SHOCK_SITE = /mnt/Shock/site
 	SHOCK_DATA = /mnt/Shock/data
 	SHOCK_LOGS = /mnt/Shock/logs
+	MONGO_HOST = localhost
+	MONGO_DB = ShockDBtest
 
 	TPAGE_ARGS = --define kb_top=$(TARGET) \
 	--define kb_runtime=$(DEPLOY_RUNTIME) \
@@ -34,8 +38,8 @@ else
 	--define site_dir=$(SHOCK_SITE) \
 	--define data_dir=$(SHOCK_DATA) \
 	--define logs_dir=$(SHOCK_LOGS) \
-	--define mongo_host=localhost \
-	--define mongo_db=ShockDBtest \
+	--define mongo_host=$(MONGO_HOST) \
+	--define mongo_db=$(MONGO_DB) \
 	--define kb_runas_user=$(SERVICE_USER)
 endif
 
@@ -88,6 +92,9 @@ ifeq ($(PRODUCTION), 1)
 else
 	$(TPAGE) $(TPAGE_ARGS) init/shock_test.conf.tt > /etc/init/shock.conf
 endif
+
+fix-dates:
+	mongo $(MONGO_HOST):27017/$(MONGO_DB) fix_dates.js 
 
 initialize:
 	git submodule init

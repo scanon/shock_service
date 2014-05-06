@@ -52,6 +52,8 @@ $(BIN_DIR)/shock-server: Shock/shock-server/main.go
 	mkdir -p $(GO_TMP_DIR)/src/github.com/MG-RAST
 	cp -r Shock $(GO_TMP_DIR)/src/github.com/MG-RAST/
 	export GOPATH=$(GO_TMP_DIR); go get -v github.com/MG-RAST/Shock/...
+	cp Shock/Makefile $(GO_TMP_DIR)/
+	cd $(GO_TMP_DIR)/; export GOPATH=$(GO_TMP_DIR); make install
 	cp $(GO_TMP_DIR)/bin/shock-server $(BIN_DIR)/shock-server
 	cp $(GO_TMP_DIR)/bin/shock-client $(BIN_DIR)/shock-client
 
@@ -67,10 +69,8 @@ deploy-service: all
 	cp $(BIN_DIR)/shock-server $(TARGET)/bin
 	$(TPAGE) $(TPAGE_ARGS) shock.cfg.tt > shock.cfg
 
-	mkdir -p $(SHOCK_SITE) $(SHOCK_DATA) $(SHOCK_LOGS) $(SHOCK_SITE)/assets/misc
-	cp -v -r Shock/shock-server/site/* $(SHOCK_SITE)
-	rm -f $(SHOCK_SITE)/assets/misc/README.md
-	cp -v Shock/README.md $(SHOCK_SITE)/assets/misc/README.md
+	mkdir -p $(SHOCK_SITE) $(SHOCK_DATA) $(SHOCK_LOGS)
+	cp -r $(GO_TMP_DIR)/src/github.com/MG-RAST/Shock/shock-server/site/* $(SHOCK_SITE)/
 
 	mkdir -p $(SERVICE_DIR) $(SERVICE_DIR)/conf $(SERVICE_DIR)/logs/shock $(SERVICE_DIR)/data/temp
 	cp -v shock.cfg $(SERVICE_DIR)/conf/shock.cfg
@@ -80,6 +80,9 @@ deploy-service: all
 	chmod +x $(SERVICE_DIR)/stop_service
 
 deploy-upstart:
+	chown -R $(SERVICE_USER) $(SHOCK_SITE)
+	chown -R $(SERVICE_USER) $(SHOCK_DATA)
+	chown -R $(SERVICE_USER) $(SHOCK_LOGS)
 ifeq ($(PRODUCTION), 1)
 	$(TPAGE) $(TPAGE_ARGS) init/shock.conf.tt > /etc/init/shock.conf
 else
@@ -96,8 +99,8 @@ lib/Bio/KBase/Shock.pm:
 	cd lib; ./prepare.sh
 
 clean:
-	rm -fr $(GO_TMP_DIR)
-	rm -f $(BIN)/shock-client $(BIN)/shock-server
+	rm -rf $(GO_TMP_DIR)
+	rm -f $(BIN_DIR)/shock-client $(BIN_DIR)/shock-server
 	cd lib; ./prepare.sh clean
 	rm -rf
 

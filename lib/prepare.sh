@@ -9,7 +9,7 @@ if [ "$CMD" = "install" ]; then
         cd -
     fi
     cp ../Shock/libs/shock.js js/KBaseShock.js
-    sed -e 's/^package Shock;/package Bio::Kbase::Shock;/' < ../Shock/libs/shock.pm > perl/Bio-KBase-Shock/lib/Bio/KBase/Shock.pm
+    sed -e 's/^package SHOCK::Client;/package Bio::Kbase::Shock;/' < ../Shock/libs/SHOCK/Client.pm > perl/Bio-KBase-Shock/lib/Bio/KBase/Shock.pm
     mkdir -p python/biokbase/shock
     cp ../Shock/libs/shock.py python/biokbase/shock/shock.py
 elif [ "$CMD" = "clean" ]; then 

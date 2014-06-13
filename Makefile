@@ -6,7 +6,7 @@ SERVICE_DIR = $(TARGET)/services/$(SERVICE)
 
 GO_TMP_DIR = /tmp/go_build.tmp
 
-PRODUCTION = 0 
+PRODUCTION = 0
 
 ifeq ($(PRODUCTION), 1)
 	SHOCK_SITE = /disk0/site

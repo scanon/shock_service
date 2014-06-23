@@ -16,8 +16,8 @@ write=false
 create-user=false
 
 [Auth]
-globus_token_url=https://nexus.api.globusonline.org/goauth/token?grant_type=client_credentials
-globus_profile_url=https://nexus.api.globusonline.org/users
+globus_token_url=[% globus_token_url %]
+globus_profile_url=[% globus_profile_url %]
 
 [External]
 api-url=[% api_url %]
@@ -30,8 +30,8 @@ perf_log=false
 # Hostnames and ports hosts=host1[,host2:port,...,hostN]
 hosts=[% mongo_host %]
 database=[% mongo_db %]
-user=
-password=
+user=[% mongo_user %]
+password=[% mongo_password %]
 
 [Mongodb-Node-Indices]
 # See http://www.mongodb.org/display/DOCS/Indexes#Indexes-CreationOptions for more info on mongodb index options.

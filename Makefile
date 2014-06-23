@@ -26,21 +26,37 @@ ifeq ($(PRODUCTION), 1)
 	--define mongo_db=$(MONGO_DB) \
 	--define kb_runas_user=$(SERVICE_USER)
 else
-	SHOCK_SITE = /mnt/Shock/site
-	SHOCK_DATA = /mnt/Shock/data
-	SHOCK_LOGS = /mnt/Shock/logs
+	SHOCK_SITE = /disks/Shock/site
+	SHOCK_DATA = /disks/Shock/data
+	SHOCK_LOGS = /disks/Shock/logs
 	MONGO_HOST = localhost
 	MONGO_DB = ShockDBtest
+	MONGO_USER =
+	MONGO_PASSWORD =
+
+	GLOBUS_TOKEN_URL = https://nexus.api.globusonline.org/goauth/token?grant_type=client_credentials
+	GLOBUS_PROFILE_URL = https://nexus.api.globusonline.org/users
+
+	SERVER_API_URL =
+	SERVER_API_PORT = 7078
+	ifneq ($(SERVER_API_URL),)
+	SERVER_API_PORT = $(shell perl -MURI -e "print URI->new('$(SERVER_API_URL)')->port")
+	endif
+
 
 	TPAGE_ARGS = --define kb_top=$(TARGET) \
 	--define kb_runtime=$(DEPLOY_RUNTIME) \
-	--define api_port=7078 \
+	--define api_port=$(SERVER_API_PORT) \
 	--define site_dir=$(SHOCK_SITE) \
 	--define data_dir=$(SHOCK_DATA) \
 	--define logs_dir=$(SHOCK_LOGS) \
 	--define mongo_host=$(MONGO_HOST) \
 	--define mongo_db=$(MONGO_DB) \
-	--define kb_runas_user=$(SERVICE_USER)
+	--define mongo_user=$(MONGO_USER) \
+	--define mongo_password=$(MONGO_PASSWORD) \
+	--define kb_runas_user=$(SERVICE_USER) \
+	--define globus_token_url=$(GLOBUS_TOKEN_URL) \
+	--define globus_profile_url=$(GLOBUS_PROFILE_URL)
 endif
 
 include $(TOP_DIR)/tools/Makefile.common
@@ -74,7 +90,7 @@ deploy-service: all
 	$(TPAGE) $(TPAGE_ARGS) shock.cfg.tt > shock.cfg
 
 	mkdir -p $(SHOCK_SITE) $(SHOCK_DATA) $(SHOCK_LOGS)
-	cp -r $(GO_TMP_DIR)/src/github.com/MG-RAST/Shock/shock-server/site/* $(SHOCK_SITE)/
+	rsync -arv --exclude=.git $(GO_TMP_DIR)/src/github.com/MG-RAST/Shock/shock-server/site/* $(SHOCK_SITE)/
 
 	mkdir -p $(SERVICE_DIR) $(SERVICE_DIR)/conf $(SERVICE_DIR)/logs/shock $(SERVICE_DIR)/data/temp
 	cp -v shock.cfg $(SERVICE_DIR)/conf/shock.cfg

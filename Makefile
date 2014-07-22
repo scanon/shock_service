@@ -110,7 +110,7 @@ else
 endif
 
 fix-dates:
-	mongo $(MONGO_HOST):27017/$(MONGO_DB) fix_dates.js 
+	mongo -u $(MONGO_USER) -p $(MONGO_PASSWORD) $(MONGO_HOST):27017/$(MONGO_DB) fix_dates.js 
 
 initialize:
 	git submodule init

@@ -32,6 +32,7 @@ hosts=[% mongo_host %]
 database=[% mongo_db %]
 user=[% mongo_user %]
 password=[% mongo_password %]
+attribute_indexes=[% mongo_node_attribute_indexes %]
 
 [Mongodb-Node-Indices]
 # See http://www.mongodb.org/display/DOCS/Indexes#Indexes-CreationOptions for more info on mongodb index options.

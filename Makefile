@@ -25,6 +25,7 @@ ifeq ($(PRODUCTION), 1)
 	--define mongo_host=$(MONGO_HOST) \
 	--define mongo_db=$(MONGO_DB) \
 	--define kb_runas_user=$(SERVICE_USER)
+	--define mongo_node_attribute_indexes=incomplete,incomplete_name,incomplete_size
 else
 	SHOCK_SITE = /disks/Shock/site
 	SHOCK_DATA = /disks/Shock/data

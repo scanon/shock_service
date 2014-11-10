@@ -8,7 +8,7 @@ TOP_ABS = $(shell $(TOP_DIR)/runtime/bin/perl -MCwd -e 'print Cwd::abs_path("$(T
 
 GO_TMP_DIR = $(TOP_ABS)/tmp/go_build.tmp
 
-PRODUCTION = 0 
+PRODUCTION = 0
 
 ifeq ($(PRODUCTION), 1)
 	SHOCK_SITE = /disk0/site
@@ -27,6 +27,7 @@ ifeq ($(PRODUCTION), 1)
 	--define mongo_host=$(MONGO_HOST) \
 	--define mongo_db=$(MONGO_DB) \
 	--define kb_runas_user=$(SERVICE_USER)
+	--define mongo_node_attribute_indexes=incomplete,incomplete_name,incomplete_size
 else
 	SHOCK_SITE = /disks/Shock/site
 	SHOCK_DATA = /disks/Shock/data
@@ -115,7 +116,7 @@ else
 endif
 
 fix-dates:
-	mongo $(MONGO_HOST):27017/$(MONGO_DB) fix_dates.js 
+	mongo -u $(MONGO_USER) -p $(MONGO_PASSWORD) $(MONGO_HOST):27017/$(MONGO_DB) fix_dates.js 
 
 initialize:
 	git submodule init

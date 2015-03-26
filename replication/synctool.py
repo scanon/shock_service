@@ -1,5 +1,8 @@
 #!/usr/bin/python
 
+#
+# Todo: convert logging into a checkpoint function that is performed every few minutes
+#
 
 import os
 import sys
